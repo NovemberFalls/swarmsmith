@@ -86,27 +86,33 @@ without the monolith to say so. This section states where we stand, including wh
 short of our own rule.
 
 The monolith is not new here. It has been a first-class arm in the harness since the pilot
-(`arms.py`: `"monolith": []` — no skill, base tools), and **78 graded monolith runs** are on
+(`arms.py`: `"monolith": []` — no skill, base tools), and **76 graded monolith runs** are on
 record. What was missing was not the arm; it was reporting it beside every result instead of
 once, in a footnote.
 
-| fixture | monolith n | pass | what it controls |
-|---|---|---|---|
-| `arena_refactor` | 26 | **62%** (16) | §4.2, §4.3, §4.4, §4.7 — powered |
-| `arena_feature` | 26 | 96% (25) | §4.2, §4.3, §4.4, §4.7 — powered |
-| `multinode_orders` | 9 | 100% | §4.1, §4.3 |
-| `atomic_pure_fn` | 7 | 100% | §4.2 (below the wall) |
-| `arena_website` | 3 | 100% | §4.2 (below the wall) — thin |
-| `bigctx_real` | 3 | 100% | §4.4 (scale) — thin |
-| `authz_edge` | 3 | 100% | §4.1 |
-| `bigctx_audit` | 1 | 100% | §4.4 (scale) — thin |
-| `arena_cleanup` | **0** | — | §9 — **no control, ever** |
+Counting rule, stated because it decides the numbers: rows are deduplicated by `run_id`
+(the ledger contains byte-identical copies — see the integrity note below); a failure is
+**excluded** only if the session hit a subscription cap (`usage_limited`) or aborted in
+under 15 seconds without doing work; **running out of turns is a failure and stays in.**
 
-**Read the right-hand column before the left.** On **six of eight fixtures the monolith
-passes 100% of the time.** Its only real failure mode anywhere in this study is running out
-of turns on the hard refactor — 9 of its 26 runs there hit the 101-turn cap. That is the
-whole of the skill's measured *correctness* advantage on code work. Everywhere else the
-argument is cost, wall-clock and structure, and we should not be heard making a larger one.
+| fixture | graded n | pass | excluded | what it controls |
+|---|---|---|---|---|
+| `arena_refactor` | 25 | **64%** (16) | 1 | §4.2, §4.3, §4.4, §4.7 — powered |
+| `arena_feature` | 25 | 100% | 1 | §4.2, §4.3, §4.4, §4.7 — powered |
+| `multinode_orders` | 9 | 100% | 4 | §4.1, §4.3 |
+| `atomic_pure_fn` | 7 | 100% | 3 | §4.2 (below the wall) |
+| `arena_website` | 3 | 100% | 0 | §4.2 (below the wall) — thin |
+| `bigctx_real` | 3 | 100% | 0 | §4.4 (scale) — thin |
+| `authz_edge` | 3 | 100% | 0 | §4.1 |
+| `bigctx_audit` | 1 | 100% | 0 | §4.4 (scale) — thin |
+| `arena_cleanup` | **0** | — | — | §9 — **no control, ever** |
+
+**Read the right-hand column before the left.** On **seven of eight fixtures the monolith
+passes every graded run.** Its only failure mode anywhere in this study is running out of
+turns on the hard refactor — 9 of 25 runs there hit the 100-turn cap, and that single cell
+is the whole of the skill's measured *correctness* advantage on code work. Everywhere else
+the argument is cost, wall-clock and structure, and we should not be heard making a larger
+one.
 
 **Provisional by our own standard, and marked as such:**
 
@@ -142,6 +148,36 @@ the arm we compete against look perfect. Correcting it makes our own skill look 
 which is exactly the kind of repair an interested party should be slowest to trust — so the
 check that matters is not our reasoning but that the corrected pipeline lands on the number
 we had already published from hand-counting.
+
+**Ledger integrity audit (2026-08-06).** Prompted by the question *"is the data tainted?"*,
+we audited the results ledger rather than the conclusions. Four defects, none of which
+change a published direction, all of which change how much weight a number can carry:
+
+1. **Duplicate rows.** `v5_graduation_rerun.jsonl` is a byte-identical strict subset of
+   `v5_live_k25.jsonl` — 12 runs exist twice on disk. Any glob-and-sum over `results/`
+   double-counts them. Affects §4.7a's arms only; no monolith row is duplicated. **All
+   counts in this document are now deduplicated by `run_id`.**
+2. **The first draft of this very section was wrong, twice, in our own favour.** It reported
+   `arena_refactor` at 62% and `arena_feature` at 96% by counting subscription-cap aborts as
+   graded failures of the control. Corrected to 64% and 100%. Both errors made the monolith
+   look worse and our skill look better. They were caught by re-deriving the table under a
+   written counting rule, not by review.
+3. **Turn counts before 2026-07-31 are a lower bound.** `num_turns` was last-wins
+   per-segment until commit `6d4d86d`; the k=25 pass ran the day before. So turn-cap
+   detection on the decisive cells can produce **false negatives but not false positives** —
+   the nine we count are real, and there may be capped monolith runs we are still scoring as
+   something else. The monolith's true failure rate on `arena_refactor` is **≤64%**, not
+   exactly 64%.
+4. **`model` is an unresolved alias on 39 of 76 monolith rows** (`"opus"` or null, rather
+   than `claude-opus-4-8`). §3 claims the harness alarms on a provider re-pointing a tier
+   mid-study; `model_drift` fires on 0 rows, but it *cannot* fire on an alias it never
+   resolved. That guarantee is weaker than we stated it.
+
+**The structural cause, which is not fixed:** result rows carry no timestamp. Runs cannot be
+ordered, or bound to the harness, fixture and skill revision that produced them — the dating
+above comes from git history of the *files*, not the rows. Until rows carry a timestamp and
+a harness commit hash, "which version graded this?" is answerable only by inference. That is
+the repair that matters more than any number in this section, and it is not yet made.
 
 ### 4.1 Round 1 — the ceremony didn't help
 
