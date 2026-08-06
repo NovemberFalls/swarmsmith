@@ -470,6 +470,80 @@ of that commit. Method, harness changes, and the reconciliation record:
 `bench/results/V5_LIVE_FINDINGS.md` and `NOTE_FOR_ARENA_TEAM.md`. Ladder continues to
 k=10, then k=25.
 
+### 4.8 · The planner seat, and the control we had been missing (2026-08-06)
+
+`/orch-plan` turns an idea into a backlog that `/orch-code-anth` executes and `/orch-qa`
+verifies. Its primary caller — stated by the owner, and the case we had barely measured —
+is **someone with an idea, nothing built, who does not know how software is made.**
+
+**Subject:** a bakery wanting cake pre-orders. Greenfield, no repo. The caller was played to
+a rule sheet: confident about the business, *"I don't know"* to anything technical, and
+**never volunteering a domain** — no mention of security, payments, privacy, hosting,
+testing or allergens unless the planner raised it first. If the plan covers security, the
+skill did that, not the human.
+
+**Three arms, per `docs/bench-normalization.md`:**
+
+| | MONOLITH (control) | INCUMBENT | CHALLENGER |
+|---|---|---|---|
+| domains raised, of 16 | **12 · 14** | 14 · 15 | **16 ×4** |
+| interrogation rounds | **1 · 2** | 3 · 4 | 5–8 |
+| decision log | **none · partial** | yes | **yes, dated** |
+| nodes with accept commands | **0 · 0** | yes | yes |
+| coverage table | no · no | no · no | **yes ×4** |
+| **asked consent before writing** | **NO · NO** | partial · yes | **yes ×4** |
+| single next command | no · no | no · no | 3 of 4 |
+| cost | **$0.48 · $0.70** | $1.40 · $2.57 | $1.67–$2.97 |
+
+**The monolith is not insensitive. It is unstructured.** With no skill at all it raised
+12–14 of 16 domains unprompted, produced costed procurement with *"buy the domain today,
+before someone else does"*, and gave sound advice — *rent, don't build; fix the notebook
+first for £0* — in prose our caller called *"outstandingly readable"*. On raw domain
+sensitivity the skill's advantage is 12→16: real, and modest.
+
+What the monolith produced **none of, at either effort**: a decision log with rejected
+alternatives, a single node carrying a deterministic accept command, or a coverage table.
+Its own driver: *"raised the right domains in conversation and then failed to leave a
+machine-checkable artifact behind."*
+
+**So the planner skill is justified by structure and consent, not by coverage** — and both
+predate the sections we spent that day writing. The day's new domain-sweep section was worth
+**+1–2 domains over the incumbent** and is the one dimension where the monolith was already
+adequate. It was compressed 97→56 lines the same day, with its measured nulls written into
+the section text.
+
+**The consent result is the strongest signal in the chapter.** Both monolith cells wrote the
+plan **without ever asking**. One pre-announced *"I'll make sensible assumptions on anything
+you skip"*, then opened the next turn with *"Written to PLAN.md"* — after one round — having
+made the largest decision in the project (don't build, use a hosted store) without asking.
+The other told the caller to keep **customer names and phone numbers in a spreadsheet and
+never once mentioned whether that was allowed**; her words: *"I wouldn't have known to ask."*
+
+Consent across arms: **monolith 0/2 · incumbent 1/2 · challenger 4/4.** A clean monotonic
+gradient. The incumbent's single failure wrote a plan unconfirmed and back-filled two
+decisions the caller reported having opinions about — the same defect we had measured a day
+earlier at **3 of 8 planners attempting to write unconfirmed, 2 succeeding**, and fixed by
+making the confirmation a hard halt whose confirming words are recorded in the plan header.
+
+**The monolith is a different product, not simply a worse one.** At $0.48 and one round it
+produced a defensible recommendation and a three-week checklist. But its output cannot be
+executed, verified, or checked against later, because it has no nodes, no accept commands
+and no decision log. **It ends the conversation; the plan starts one.** A caller who wants
+advice is better served asking plainly, and a planning skill should say so.
+
+**Effort substitutes for structure.** `xhigh` beat `low` **14 vs 12** in the monolith — the
+largest effort gap on this subject — narrowing to 15 vs 14 with the incumbent and vanishing
+at 16 vs 16 with the challenger. Guidance and deliberation buy the same thing, so they do
+not stack.
+
+**Rows and method** are in the `team` repo: `bench/results/THREE_ARM_GREENFIELD.md`
+(the three-arm table), `GREENFIELD_CONTROL.md` (challenger vs incumbent),
+`GREENFIELD_NAIVE_CALLER_RESULTS.md` (challenger only, banner-marked provisional),
+`bench/ARM_TAXONOMY.md`, and the pre-registration at
+`bench/backlog/GREENFIELD_NAIVE_CALLER.md`. Plans and human transcripts for all eight cells
+are archived alongside. **n=1 per cell, one subject, agent-played caller** — more coherent
+than a real novice, so coverage figures are an upper bound.
+
 ## 5 · Discussion — the laws we keep re-measuring
 
 1. **Judgment concentrates at the top.** Quality lives in the plan and the briefs;
@@ -502,10 +576,27 @@ as standing:
    claim of "best available model" carries a date, and the harness must stay
    cheap enough to re-run when that date ages.
 
+6. **A skill is never a control.** The control is the monolith — one context
+   window, same task, no guidance. Once crowned, a skill is an *incumbent*, and
+   champion-vs-challenger only ever measures a delta. Without the monolith a
+   program can iterate for months, each version beating the last, while the whole
+   line is worse than asking plainly — every measurement real, every conclusion
+   wrong, and the comparison structurally blind to it. Standing rule: the monolith
+   cannot be factored out of results, and a result published without it is
+   provisional. See `docs/bench-normalization.md`.
+
 And the standing guardrail behind all three: **reports are claims; exit codes are
 evidence.** LLM review never gates anything here.
 
 ## 6 · Limitations
+
+**The planner chapter (4.8) is n=1 per cell** and its caller was an agent following a rule
+sheet — more consistent and less confused than a real novice, so its coverage figures are an
+upper bound, not an expectation. It is exploratory throughout, and the one subject (a shop
+taking payments online) makes money, legal and security reachable by inference in a way a
+hobby project or internal tool may not. **Its monolith arm is one plausible monolith, not
+the best possible one** — a differently-worded ask with no skill might well produce more
+structure than ours did.
 
 Mixed sample sizes: decisive cells are powered at k=25 (~150 runs, pre-registered
 CIs and significance tests); exploratory and secondary cells are n=1–3 and are
