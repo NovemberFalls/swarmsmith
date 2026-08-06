@@ -150,8 +150,10 @@ check that matters is not our reasoning but that the corrected pipeline lands on
 we had already published from hand-counting.
 
 **Ledger integrity audit (2026-08-06).** Prompted by the question *"is the data tainted?"*,
-we audited the results ledger rather than the conclusions. Four defects, none of which
-change a published direction, all of which change how much weight a number can carry:
+we audited the results ledger rather than the conclusions. Six defects, none of which change
+a published direction, all of which change how much weight a number can carry. The audit is
+now a committed script — `bench/audit_ledger.py` — that runs against each incoming batch and
+exits non-zero on duplicate rows, so this is a gate rather than a memory:
 
 1. **Duplicate rows.** `v5_graduation_rerun.jsonl` is a byte-identical strict subset of
    `v5_live_k25.jsonl` — 12 runs exist twice on disk. Any glob-and-sum over `results/`
@@ -168,10 +170,24 @@ change a published direction, all of which change how much weight a number can c
    the nine we count are real, and there may be capped monolith runs we are still scoring as
    something else. The monolith's true failure rate on `arena_refactor` is **≤64%**, not
    exactly 64%.
-4. **`model` is an unresolved alias on 39 of 76 monolith rows** (`"opus"` or null, rather
-   than `claude-opus-4-8`). §3 claims the harness alarms on a provider re-pointing a tier
-   mid-study; `model_drift` fires on 0 rows, but it *cannot* fire on an alias it never
-   resolved. That guarantee is weaker than we stated it.
+4. **`model` is an unresolved alias on 160 of 383 rows** (`"opus"` or null, rather than
+   `claude-opus-4-8`; 39 of the 76 monolith rows). §3 claims the harness alarms on a
+   provider re-pointing a tier mid-study; `model_drift` fires on 0 rows, but it *cannot*
+   fire on an alias it never resolved. That guarantee is weaker than we stated it.
+5. **Summed turns are not comparable to a per-session cap.** Since `6d4d86d`, `num_turns`
+   sums across result events — orchestrator *and* every subagent session — while
+   `--max-turns` is enforced per session. Cap detection therefore mislabels healthy swarms:
+   one `v41-higheff` row shows 68 summed turns against a cap of 50 with `agent_ok=True` and
+   15 spawns. Fixed by restricting cap detection to non-spawning runs. This corrects a claim
+   we made earlier the same day — *"no skilled arm has ever hit its cap"* is true, but it
+   was one classifier artifact away from looking false, and the artifact was ours.
+6. **The fixture behind the scale claim is not under version control.** `bigctx_real` —
+   which grades §4.4's *"42% of the monolith's price"* — is excluded via `.git/info/exclude`,
+   a local file that is not even shared with collaborators. Every other fixture is tracked
+   (`arena_refactor` has 96 tracked files and exactly one commit, so that exam is provably
+   unchanged across arms). For `bigctx_real` we cannot demonstrate the monolith and the
+   champion sat the same exam. **§4.4's scale numbers should be read as non-reproducible
+   until that fixture is committed or its exclusion is justified in writing.**
 
 **The structural cause, which is not fixed:** result rows carry no timestamp. Runs cannot be
 ordered, or bound to the harness, fixture and skill revision that produced them — the dating
