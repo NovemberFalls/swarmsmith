@@ -78,6 +78,71 @@ a release is treated as a fresh optimization opportunity, never a silent upgrade
 
 ## 4 · Results
 
+### 4.0 · The control, and which chapters carry it
+
+`docs/bench-normalization.md` requires three arms — **monolith** (one context window, no
+skill text, no guidance), **incumbent**, **challenger** — and requires any result published
+without the monolith to say so. This section states where we stand, including where we fall
+short of our own rule.
+
+The monolith is not new here. It has been a first-class arm in the harness since the pilot
+(`arms.py`: `"monolith": []` — no skill, base tools), and **78 graded monolith runs** are on
+record. What was missing was not the arm; it was reporting it beside every result instead of
+once, in a footnote.
+
+| fixture | monolith n | pass | what it controls |
+|---|---|---|---|
+| `arena_refactor` | 26 | **62%** (16) | §4.2, §4.3, §4.4, §4.7 — powered |
+| `arena_feature` | 26 | 96% (25) | §4.2, §4.3, §4.4, §4.7 — powered |
+| `multinode_orders` | 9 | 100% | §4.1, §4.3 |
+| `atomic_pure_fn` | 7 | 100% | §4.2 (below the wall) |
+| `arena_website` | 3 | 100% | §4.2 (below the wall) — thin |
+| `bigctx_real` | 3 | 100% | §4.4 (scale) — thin |
+| `authz_edge` | 3 | 100% | §4.1 |
+| `bigctx_audit` | 1 | 100% | §4.4 (scale) — thin |
+| `arena_cleanup` | **0** | — | §9 — **no control, ever** |
+
+**Read the right-hand column before the left.** On **six of eight fixtures the monolith
+passes 100% of the time.** Its only real failure mode anywhere in this study is running out
+of turns on the hard refactor — 9 of its 26 runs there hit the 101-turn cap. That is the
+whole of the skill's measured *correctness* advantage on code work. Everywhere else the
+argument is cost, wall-clock and structure, and we should not be heard making a larger one.
+
+**Provisional by our own standard, and marked as such:**
+
+- **§4.5 / §4.6 (the local lane) — N/A, not provisional.** These replay fixed worker briefs.
+  With no skill there is no brief, so a monolith arm is undefined; the API worker is the
+  control and it is reported.
+- **§4.1 — N/A.** Persona backstories and gate batteries were settled by *placebo* ablations
+  (irrelevant-backstory arm, no-gate arm). "No skill at all" does not adjudicate them.
+- **§4.7 / §4.7a (the apply-tier) — provisional on an effort mismatch.** Both fixtures carry
+  a powered monolith, but **every monolith run on record is at `xhigh` or default effort,
+  while every v5.0 row is at `low`.** The control has never been run at the effort the
+  champion is crowned at. This is the open gap; it is one overnight cell to close.
+- **§9 / `arena_cleanup` — no control was ever run.** An independent second reason the clean
+  phase was withdrawn as *unmeasured* rather than measured-null.
+
+**A correction to our own accounting, found while writing this section.** The harness filed
+turn-cap exhaustion under `failure_class: infra`, alongside genuine harness aborts, and
+`aggregate.py` drops infra failures from the denominator. So the pipeline deleted the
+monolith's *only* failure mode and reported the control at 100% on a fixture it failed nine
+times out of twenty-six. The published 62–64% had been computed correctly by hand; the
+script that should have reproduced it could not.
+
+Fixed: `turncap` is now its own class, evaluated before the `is_error` branch (a turn-cap
+stop also trips `is_error`), carries the fixture's own `max_turns`, and stays in the
+denominator; legacy rows are repaired on read. The aggregator now returns **64.0%** on the
+pre-registered k=25 subset — the published figure, reproduced from data for the first time.
+Full-ledger n=26 gives 62%.
+
+**State the direction of the bias, because we benefit from the fix.** Across every arm in
+the ledger, all nine recovered turn-cap failures belong to the **monolith**; no skilled arm
+has ever hit its cap. The defect therefore deleted only the *control's* failures and made
+the arm we compete against look perfect. Correcting it makes our own skill look better,
+which is exactly the kind of repair an interested party should be slowest to trust — so the
+check that matters is not our reasoning but that the corrected pipeline lands on the number
+we had already published from hand-counting.
+
 ### 4.1 Round 1 — the ceremony didn't help
 
 We began with an elaborate multi-agent system: rich personas, a battery of
@@ -104,10 +169,15 @@ and killed the rest:
 
 We then benchmarked the skill itself, six generations head-to-head.
 
-- **Below the wall, refusing to delegate wins.** For any job that fits one
-  session, swarms are pure overhead — forcing delegation there cost +86–104% for
-  zero correctness gain. The winning skill *computes* a go/no-go from counted
-  work (edit points, files, reading volume) and prints its verdict before acting.
+- **Below the wall, refusing to delegate wins — and the monolith wins with it.** For
+  any job that fits one session, swarms are pure overhead — forcing delegation there
+  cost +86–104% for zero correctness gain. The winning skill *computes* a go/no-go from
+  counted work (edit points, files, reading volume) and prints its verdict before acting.
+  **The control arm states the honest limit of that claim:** below the wall the monolith
+  is 19/19 across `atomic_pure_fn` (7), `multinode_orders` (9) and `arena_website` (3) —
+  100%, at $0.24–$2.44 a run. On small work the skill is not buying correctness, because
+  there is none left to buy. What it buys is *not spending swarm money to find that out*,
+  which is a real thing to buy and a smaller one than "the skill wins."
 - **At the wall, delegation is the only thing that scales.** On the 68-edit
   migration, the single session died on the easy work two runs in three; a routed
   swarm posted the cheapest passing runs on record. Turns — not tokens — were the
@@ -195,7 +265,11 @@ don't know exists), the full 45-cell worker grid, and the 400K-token deep audit.
   15.39 vs the single session's USD 36.60** (which also passed, at 9× its usual
   prices) — and the runner-up config dropped a run there, independently
   validating the tie-break. Delegation's promise, graded: **42% of the
-  monolith's price in the regime delegation was invented for.**
+  monolith's price in the regime delegation was invented for.** Stated as an arm:
+  **monolith 3/3 at a median $31.34 and 33.4 min · champion passing at $15.39.** The
+  control does not fail at scale — it succeeds at twice the price and twice the wall.
+  This is the one chapter where the monolith arm is thin (n=1–3) and the claim would
+  survive or die on powering it.
 
 ### 4.5 The local lane — worker fungibility leaves the API
 
@@ -363,6 +437,16 @@ an identical toolset (including `Agent`), so the skill text is the only variable
 **k=5 complete, 30/30 cells.** The denominator is the finding: cost per attempt and cost
 per *successful run* rank these skills differently, and only the second is decidable in
 advance — you cannot keep the good attempts and discard the bad ones.
+
+> **PROVISIONAL — the control is not at the same effort.** Both fixtures carry a powered
+> monolith (`arena_refactor` 16/26 at $7.59 median; `arena_feature` 25/26 at $3.78), but
+> **those runs are at `xhigh` and every row below is at `low`.** Cross-effort, so the table
+> below is a two-arm result with a reference line, not a three-arm result. It matters most
+> here: `docs/bench-normalization.md` §5 applies in full — the same author wrote the
+> apply-tier, designed its test, and set the threshold it cleared. Closing this is one
+> low-effort monolith cell per fixture at k=25. Until it runs, read the v5.0-vs-v4.1 delta
+> as sound and the *"the apply-tier is worth having"* conclusion as unproven against no
+> skill at all.
 
 | arm | fixture | correct | $/attempt | **$/success** | wall p50 | spawns |
 |---|---|---|---|---|---|---|
@@ -597,6 +681,14 @@ taking payments online) makes money, legal and security reachable by inference i
 hobby project or internal tool may not. **Its monolith arm is one plausible monolith, not
 the best possible one** — a differently-worded ask with no skill might well produce more
 structure than ours did.
+
+**Control coverage is uneven, and §4.0 states where.** The code chapters were not measured
+champion-vs-challenger — a monolith arm has been in the harness since the pilot and 78
+graded runs exist — but it was reported once rather than beside each result, and it is
+powered on only two of eight fixtures. Two gaps are live: the apply-tier's control has never
+run at the champion's effort (§4.7a banner), and `arena_cleanup` has no control at all. The
+scale chapter's control is n=1–3. Neither gap is closed by writing; both are runs, and until
+they run those results are provisional by our own standard.
 
 Mixed sample sizes: decisive cells are powered at k=25 (~150 runs, pre-registered
 CIs and significance tests); exploratory and secondary cells are n=1–3 and are
