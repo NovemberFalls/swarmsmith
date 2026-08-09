@@ -680,6 +680,92 @@ not stack.
 are archived alongside. **n=1 per cell, one subject, agent-played caller** — more coherent
 than a real novice, so coverage figures are an upper bound.
 
+### 4.9 · Does a plan change the software? — the sealed-intent cell (2026-08-08/09)
+
+Every planner cell to §4.8 stopped at the plan. This one runs both arms all the way to
+running code. Six words to each — *"lets make a browser based mmorpg"* — with an intent card
+describing what the caller actually wanted **written, sealed and SHA-256'd before either arm
+started**, stored outside both working trees, shown to neither. The planned arm's caller
+answers from it only when asked; the direct arm never sees it.
+
+**The seal is independently checkable, and we checked it rather than asserting it:**
+`bench/results/crown_cell/SEALED_INTENT.md`, 2665 bytes LF-normalized, SHA-256
+`01e0008f…0531f85`, matching the value committed in the pre-registration (`b608f0a`) before
+spend. This is the first claim in the program a reader can verify without trusting us.
+
+| pre-registered condition | required | measured |
+|---|---|---|
+| sealed intent items honoured | PLANNED ≥ DIRECT **+3** | **9 vs 4 — margin 5** |
+| wrong-product nodes | PLANNED **fewer** | **0 vs 13** |
+
+A tie was pre-registered to go to DIRECT. It was not close.
+
+**The control built a genuinely excellent game.** 30/30 nodes, 274/274 tests, `HALT DONE`,
+**zero interventions**, zero dependencies down to a hand-rolled RFC 6455 WebSocket server.
+It also honoured 4 of 10 sealed requirements and spent **13 of its 30 nodes** on stats,
+combat, monster AI, loot tables, inventory, NPCs and quests — every one of them contradicting
+the sealed line *"combat is not the product."* It shipped `prompt('Name your character')`
+into localStorage for a game whose first requirement was *private to six friends*, and
+keyboard-only controls for a caller who said *half of them are on a phone*.
+
+**The planned arm honoured 9 of 10 with 0 wrong-product nodes** — grep for
+combat/damage/monster/loot across its source returns nothing; a client test *fails* a control
+binding that uses `keydown`; the database refuses destructive writes via `BEFORE UPDATE`/
+`BEFORE DELETE` triggers rather than the code promising not to make them.
+
+**The caveat travels with the claim, and anyone quoting the result without it is misquoting
+it.** DIRECT shipped a running game; PLANNED did not. PLANNED reached 14 of 24 nodes with
+**8 blocked on procurement the caller must perform** — a VPS and a domain. *The plan bought
+fidelity, not throughput.* And the arm with no plan produced the single best finding in
+either: 273 tests green while `npm start` started nothing, because an entry-point guard
+compared a hand-built `file://C:/…` against the real `file:///C:/…` and Node exited 0 in
+silence. Found by running the server. That is §3.7's own argument, discovered unaided by the
+arm that was never told to look.
+
+**On the word "crowned" — the program now has two conflicting definitions and should keep
+one.** This cell's pre-registration defines `CROWN EARNED` by its two conditions, and by its
+own terms the crown is earned. But `docs/bench-normalization.md` §6 says a crowning requires
+**all three arms**, a metric with headroom, and **cost per successful run**. This cell ran
+two arms — challenger and control, no incumbent — and struck the cost clause by instruction.
+So under §6 this is not a crowning; it is a **justification against the control at n=1**,
+which is a different and in some ways stronger thing: it answers *does the skill exist for a
+reason*, not *is this version better than the last*. We flag it because arm-label slippage is
+this program's most repeated error — it produced the `GREENFIELD_CONTROL.md` mislabel and the
+whole of §4.8 — and the fix is to rename the outcome or amend §6, not to let two meanings run.
+
+**What was NOT measured here:** no incumbent arm ran, so nothing in this cell says the
+sections we added on 2026-08-06 helped. The evidence that day runs the other way — see below.
+
+**Three corrections to §1.5 of the planner skill, all reducing it, all measured
+(`SWEEP_AND_OBLIGATIONS_RESULTS.md`, pre-registered at `80f6dd5`):**
+
+- **The domain sweep is REFUTED** on a subject built to be opaque — margin ~1–2 domains
+  against a pre-registered bar of 3, and *both* controls found the hardest item unaided.
+- **The obligations table earns 3 of its 8 rows.** Breach duty, audit trail and encryption at
+  rest are 2/2 with it and 0/2 without; access control, retention and segregation are
+  redundant because the surviving domain rows already reach them. Offboarding is in between.
+  No aggregate claim is made.
+- **`MILESTONE-NO-INTEGRATION` is withdrawn** — it was inverted against §3.7 and warned on
+  compliant plans.
+
+**And one benchmark round was voided by its own author.** Round 1 of the §1.5 cells handed
+every cell the pre-registration, which names the answers. It is void, and its transcripts are
+**kept and labelled** at `bench/results/sweep_round1_CONTAMINATED/` rather than deleted.
+
+**The three routes agree, which is the point.** §4.8 (structure and consent, not coverage),
+the 12-cell false-familiarity run (the skill does not see through the trap; what protects is
+that it keeps asking and does not build until confirmed), and this cell (the plan changes
+*what gets built*) all land in the same place — **the planner's value is ordering and consent,
+not the content of its individual sections.** Every section-level claim we have tested has
+come back refuted, partial, or withdrawn. That is a coherent finding, not a contradiction.
+
+**Limits.** n=1, one product, one model, one owner scoring from artifacts. Item 10 is excluded
+from the margin by a ruling made before any result was in. Cost was recorded, not scored:
+DIRECT ~434k tokens; PLANNED `cost.json` records $12.30 over 5 accounted passes, but three
+passes killed by a host cap had their result files overwritten, so true spend is ~$22–23 —
+**the fourth time this program has hit the same metering defect**, and the arm reported it
+rather than filing the recorded number.
+
 ## 5 · Discussion — the laws we keep re-measuring
 
 1. **Judgment concentrates at the top.** Quality lives in the plan and the briefs;
@@ -733,6 +819,12 @@ taking payments online) makes money, legal and security reachable by inference i
 hobby project or internal tool may not. **Its monolith arm is one plausible monolith, not
 the best possible one** — a differently-worded ask with no skill might well produce more
 structure than ours did.
+
+**§4.9 is n=1 and its "crown" is not a §6 crowning.** One product, one model, two arms and no
+incumbent, cost recorded rather than scored, and the owner scored it from the artifacts. It
+can support or refuse the proposition that a plan changes the software; it cannot size the
+effect. Its sealed-intent hash is verifiable, which constrains *post-hoc* rewriting of the
+target — not sample size.
 
 **Control coverage is uneven, and §4.0 states where.** The code chapters were not measured
 champion-vs-challenger — a monolith arm has been in the harness since the pilot and 78
