@@ -703,7 +703,9 @@ rewriting of the target; it does nothing about sample size.
 
 A tie was pre-registered to go to DIRECT. It was not close.
 
-**The control built a genuinely excellent game.** 30/30 nodes, 274/274 tests, `HALT DONE`,
+**The control built a genuinely excellent game.** Every node in its plan built — 35
+definitions, 34 of them named in commit subjects with `C5n` landing paired — 274/274
+tests, `HALT DONE`,
 **zero interventions**, zero dependencies down to a hand-rolled RFC 6455 WebSocket server.
 It also honoured 4 of 10 sealed requirements and spent **13 of its 35 nodes** on stats,
 combat, monster AI, loot tables, inventory, NPCs and quests — every one of them contradicting
@@ -719,7 +721,7 @@ binding that uses `keydown`; the database refuses destructive writes via `BEFORE
 **The caveat travels with the claim, and anyone quoting the result without it is misquoting
 it.** DIRECT shipped a running game; PLANNED did not. PLANNED reached 14 of 24 nodes with
 **8 blocked on procurement the caller must perform** — a VPS and a domain. *The plan bought
-fidelity, not throughput.* And the arm with no plan produced the single best finding in
+fidelity, not throughput.* And the arm with no human to ask produced the single best finding in
 either: 273 tests green while `npm start` started nothing, because an entry-point guard
 compared a hand-built `file://C:/…` against the real `file:///C:/…` and Node exited 0 in
 silence. Found by running the server. That is §3.7's own argument, discovered unaided by the
@@ -743,8 +745,16 @@ prevent. **Crowning remains open** and needs what §6 asks for: three arms inclu
 incumbent, a metric with demonstrated headroom, and cost per successful run. The catch was a
 reviewer's, not the author's.
 
-**Correction, 2026-08-09, before this section had been read by anyone outside:** the
-denominator above was first published as *13 of 30*. The plan defines **35** nodes; `30` was
+**Two corrections, 2026-08-09.**
+
+**First, the framing.** This cell is **not plan versus no-plan**, and earlier wording here
+implied it was. The control ran `/orch-plan-ralph`, which carries its own planning step, and
+**marked its whole plan `DERIVED` itself** — the skill's §1–§2.5 require a human to
+interrogate and there was none. The variable is **the interrogation, not the document**:
+plan-with-a-human against plan-derived-alone. That is the more useful comparison and the
+honest one.
+
+**Second, the denominator** — first published as *13 of 30*. The plan defines **35** nodes; `30` was
 the arm's own summary line (*"29 planned + G1n discovered"*), used without counting — in the
 same write-up that claimed both gates were re-run rather than trusted. 13/30 reads as 43% of
 the build; 13/35 is 37%. **The error ran in the direction of our own argument, which is the
