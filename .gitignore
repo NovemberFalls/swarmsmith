@@ -16,6 +16,12 @@ desktop.ini
 # Node (in case examples grow tooling)
 node_modules/
 
+# Python bytecode. Five .pyc files were tracked in this public repo, including one
+# for install.py -- a compiled artifact next to a checksummed package invites the
+# question of which one a reader is running. Untracked below; removed from the index.
+__pycache__/
+*.py[cod]
+
 # Human drift test scratch (team/bench/human-test). Empty on purpose: an empty dir
 # gives /orch-plan §0.5 nothing to audit, so the test measures interrogation rather
 # than a repo read. Nothing produced here belongs in a public repo.
