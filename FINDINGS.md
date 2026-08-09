@@ -689,9 +689,12 @@ started**, stored outside both working trees, shown to neither. The planned arm'
 answers from it only when asked; the direct arm never sees it.
 
 **The seal is independently checkable, and we checked it rather than asserting it:**
-`bench/results/crown_cell/SEALED_INTENT.md`, 2665 bytes LF-normalized, SHA-256
-`01e0008f…0531f85`, matching the value committed in the pre-registration (`b608f0a`) before
-spend. This is the first claim in the program a reader can verify without trusting us.
+2665 bytes LF-normalized, SHA-256 `01e0008f…0531f85`, matching the value committed in the
+pre-registration (`b608f0a`) before spend. This is the first claim in the program a reader
+can verify without trusting us — **and the card is published here so you can**:
+[`docs/crown-cell/SEALED_INTENT.md`](docs/crown-cell/SEALED_INTENT.md), with the one-line
+check in [`docs/crown-cell/README.md`](docs/crown-cell/README.md). It constrains post-hoc
+rewriting of the target; it does nothing about sample size.
 
 | pre-registered condition | required | measured |
 |---|---|---|
