@@ -40,6 +40,12 @@ Four of your recommendations beat what had already been built, and were adopted 
   `/orch-plan-ralph` is now a thin shim: run `/orch-plan` in full, then only the
   ralph-specific parts. Zero restated planning text.
 
+  **"Thin shim" describes the FILE, not the skill's maturity.** It means the document
+  delegates rather than restates. It was later read as a status and published as
+  `shim · unmeasured` on a public page, which is wrong in both words: the shim in this
+  toolchain is `/qa-update`, and ralph is measured — **7 of 7 cells faithful, 0 gates
+  faked** (§4.10). Corrected 2026-08-09.
+
 Two answers differ from your recommendation, both for reasons from Len:
 
 - **§4.1 — per MILESTONE, not per plan section, and it ALERTS rather than emits.** A

@@ -954,5 +954,73 @@ Deterministic checks decide. Taste is a different tournament.
 - **Round-1 experiments:** [`examples/eval/`](examples/eval/) — the controlled
   tests behind §4.1, including the one that disproved our founding assumption.
 
+### 4.10 · Ralph, scored against what it is actually for (2026-08-06/07)
+
+`/orch-plan-ralph` runs a plan to a first standing implementation in one unattended push.
+It was measured three times against the wrong bar — **economics** (build-direct wins 2.6×),
+**finished software**, and then **correctness** — before the owner stated the criterion
+plainly: not fast, not correct, not economical, but *"as accurate as possible, delivering a
+faithful representation without intervention"*, producing a **skeleton you can advance
+from**, runnable overnight.
+
+Re-scored against that, with **no new runs** — the data was always there, measured against
+the wrong questions:
+
+| | result |
+|---|---|
+| **faithful** — built what the plan said, halted honestly where it could not | **7 of 7** |
+| **gates faked** | **0 of 7** |
+| explicit refusals to fake one | **5 of 7** |
+| ran unattended to a self-declared halt, zero touches | **1 of 7** |
+
+The refusals are the substance. One loop **reverted a completed rework** because it
+contradicted a logged decision, then halted twice asking a human to rule: *"this loop cannot
+make it because it changes a LIVE decision either way."* Another refused three separate ways
+to make an accept pass — kill the squatting process, move the accept's port, move the app's
+port. A third surfaced a defect **its own accept command could not see** and filed it rather
+than patching the plan. **A loop that fakes progress is worthless when you are asleep;
+across seven cells there are zero fakes.**
+
+**No-intervention is where it fails, and every cause was harness rather than judgement:** a
+stand-up that backgrounded its own loop and exited (4 cells), a BOM-encoded `cost.json` the
+bash driver could not parse (1), and restarts downstream of those. The one cell with a clean
+harness path ran unattended to a correct halt. **The honest gap: a full backlog, overnight,
+zero touches, has never been demonstrated end to end.**
+
+**The unfixed risk for the overnight case:** the cost ceiling meters the loop's own passes
+and is blind to the orchestrator around it. Measured — three cells hit **$14–15 against a
+$12 ceiling** while their own meters never tripped; in one, two director sessions cost
+**$8.59, more than all the building**. For a supervised ten-minute run that is an accounting
+annoyance. Unattended overnight it is the only thing between the owner and an unbounded
+bill.
+
+**On the phrase "thin shim"** in `docs/orch-plan-qa-ralph-brief-ANSWERED.md` §6.4: it
+describes the **file** — the document delegates to `/orch-plan` instead of restating it. It
+was later read as a maturity status and published as `shim · unmeasured`. Wrong in both
+words: the shim in this toolchain is `/qa-update`, and the numbers above are the measurement.
+A structural fact became a quality verdict in transit, which is worth recording as its own
+small lesson about how labels travel.
+
+Rows and method: `bench/results/RALPH_RESCORED.md`, `RALPH_GE_RESULTS.md`,
+`RALPH_FIX_RERUN.md`, `RALPH_ISOLATION_RESULT.md` in the `team` repo.
+
+### 4.11 · A published file edited after publication — the drift we shipped for an hour
+
+On 2026-08-09 the skills page served `orch-plan.md` under a checksum that no longer matched
+it. Cause: **the source was corrected after the bundle was built and verified.** The order
+run was copy → verify → push → *edit*; the order required is **copy → build → verify →
+push**, and any edit to an already-published file re-enters at step one.
+
+Two things are worth keeping. **The deploy verifier caught it unaided** — `verify-skills.py`
+reported a printed hash matching no served artifact, which is exactly the failure it was
+written for after an earlier page published a checksum for a file that had moved on. And the
+fix was made **mechanical rather than procedural**: the verifier now compares every served
+copy against the live commands byte for byte, so this class cannot depend on anyone
+remembering.
+
+The same deploy also shipped `/orch-plan-ralph` chipped `shim · unmeasured` — see §4.10.
+**Two defects on one page, one of them ours upstream, both found by a reader and a script
+rather than by the author.**
+
 *This document was restructured from round-by-round findings into paper form on
 2026-07-18; the full evolution is in the git history.*
