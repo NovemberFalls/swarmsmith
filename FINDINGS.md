@@ -699,13 +699,13 @@ rewriting of the target; it does nothing about sample size.
 | pre-registered condition | required | measured |
 |---|---|---|
 | sealed intent items honoured | PLANNED ≥ DIRECT **+3** | **9 vs 4 — margin 5** |
-| wrong-product nodes | PLANNED **fewer** | **0 vs 13** |
+| wrong-product nodes | PLANNED **fewer** | **0 of 24 vs 13 of 35** |
 
 A tie was pre-registered to go to DIRECT. It was not close.
 
 **The control built a genuinely excellent game.** 30/30 nodes, 274/274 tests, `HALT DONE`,
 **zero interventions**, zero dependencies down to a hand-rolled RFC 6455 WebSocket server.
-It also honoured 4 of 10 sealed requirements and spent **13 of its 30 nodes** on stats,
+It also honoured 4 of 10 sealed requirements and spent **13 of its 35 nodes** on stats,
 combat, monster AI, loot tables, inventory, NPCs and quests — every one of them contradicting
 the sealed line *"combat is not the product."* It shipped `prompt('Name your character')`
 into localStorage for a game whose first requirement was *private to six friends*, and
@@ -742,6 +742,15 @@ standard to fit a result you have already seen is the retro-fit this program exi
 prevent. **Crowning remains open** and needs what §6 asks for: three arms including an
 incumbent, a metric with demonstrated headroom, and cost per successful run. The catch was a
 reviewer's, not the author's.
+
+**Correction, 2026-08-09, before this section had been read by anyone outside:** the
+denominator above was first published as *13 of 30*. The plan defines **35** nodes; `30` was
+the arm's own summary line (*"29 planned + G1n discovered"*), used without counting — in the
+same write-up that claimed both gates were re-run rather than trusted. 13/30 reads as 43% of
+the build; 13/35 is 37%. **The error ran in the direction of our own argument, which is the
+direction that needs checking hardest.** Recount from the artifact: 35 definitions, 34 in
+commit subjects, `C5n` landed in a combined `[C5n+D1n]` commit and is confirmed built. The 13
+and the verdict are unchanged.
 
 **What was NOT measured here:** no incumbent arm ran, so nothing in this cell says the
 sections we added on 2026-08-06 helped. The evidence that day runs the other way — see below.
