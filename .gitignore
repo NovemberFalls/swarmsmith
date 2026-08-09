@@ -25,3 +25,11 @@ node_modules/
 # planning session writes here is internal product thinking in a PUBLIC repo -- it is
 # untracked by default, and one `git add -A` would publish it. Ignored so that cannot happen.
 test/
+
+# Medical skill + workspace. Same rule as test/ above, and the stakes are higher: this
+# is health-adjacent material in a PUBLIC repo. Owner's decision, 2026-08-09, that it
+# does not go public. Untracked is not a safeguard -- one `git add -A` publishes it --
+# so it is ignored explicitly.
+.claude/commands/medical.md
+.claude/commands/medical-conversational.md
+medical-team/
