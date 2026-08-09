@@ -722,9 +722,9 @@ compared a hand-built `file://C:/…` against the real `file:///C:/…` and Node
 silence. Found by running the server. That is §3.7's own argument, discovered unaided by the
 arm that was never told to look.
 
-**On the word "crowned" — the program now has two conflicting definitions and should keep
-one.** This cell's pre-registration defines `CROWN EARNED` by its two conditions, and by its
-own terms the crown is earned. But `docs/bench-normalization.md` §6 says a crowning requires
+**On the word "crowned" — RESOLVED 2026-08-09: this is NOT a crowning, and the outcome was
+renamed rather than the standard amended.** This cell's pre-registration defines
+`CROWN EARNED` by its two conditions, and by its own terms they are met. But `docs/bench-normalization.md` §6 says a crowning requires
 **all three arms**, a metric with headroom, and **cost per successful run**. This cell ran
 two arms — challenger and control, no incumbent — and struck the cost clause by instruction.
 So under §6 this is not a crowning; it is a **justification against the control at n=1**,
@@ -732,6 +732,13 @@ which is a different and in some ways stronger thing: it answers *does the skill
 reason*, not *is this version better than the last*. We flag it because arm-label slippage is
 this program's most repeated error — it produced the `GREENFIELD_CONTROL.md` mislabel and the
 whole of §4.8 — and the fix is to rename the outcome or amend §6, not to let two meanings run.
+
+**We renamed the outcome.** `/orch-plan` is **PROPOSED, use-validated, and justified against
+a control (n=1)** — *not crowned*. §6 stands unchanged, because amending a published
+standard to fit a result you have already seen is the retro-fit this program exists to
+prevent. **Crowning remains open** and needs what §6 asks for: three arms including an
+incumbent, a metric with demonstrated headroom, and cost per successful run. The catch was a
+reviewer's, not the author's.
 
 **What was NOT measured here:** no incumbent arm ran, so nothing in this cell says the
 sections we added on 2026-08-06 helped. The evidence that day runs the other way — see below.
