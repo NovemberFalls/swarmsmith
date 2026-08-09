@@ -72,3 +72,35 @@ def test_manifest_is_valid_json_and_sorted():
         raw = fh.read()
     data = json.loads(raw)
     assert list(data["files"]) == sorted(data["files"])
+
+
+def test_repo_copy_matches_the_packaged_command():
+    """The README/FINDINGS links and the shipped package must be the same skill.
+
+    Added 2026-08-09 after `.claude/commands/orch-anth-5.0.md` -- the path the public
+    README and FINDINGS §4.7 link readers to -- had drifted 19 lines behind
+    `packages/coding-v5.0/commands/orch-anth-5.0.md`. The missing block was the applier
+    invocation plus "do NOT write your own", so anyone following the documented link got
+    a skill that silently falls back to in-place editing: the exact failure the text
+    warns about, and the one the package's own Invariants forbid.
+
+    Every other integrity test passed throughout, because none of them compared the two
+    copies. Manifests prove the package is self-consistent; only this proves the repo
+    documents what it ships. Compared LF-normalized -- git checks out `*.md` as LF, but
+    the author's disk may hold either.
+    """
+    repo_root = os.path.abspath(os.path.join(PKG, "..", ".."))
+    for name in install.COMMANDS:
+        shipped = os.path.join(PKG, "commands", name)
+        documented = os.path.join(repo_root, ".claude", "commands", name)
+        if not os.path.exists(documented):
+            continue  # not every packaged command is surfaced at the repo root
+        with open(shipped, "rb") as fh:
+            a = fh.read().replace(b"\r\n", b"\n")
+        with open(documented, "rb") as fh:
+            b = fh.read().replace(b"\r\n", b"\n")
+        assert a == b, (
+            f".claude/commands/{name} has drifted from packages/coding-v5.0/commands/"
+            f"{name}. The public docs link the former and the installer ships the "
+            f"latter; they must be one file."
+        )

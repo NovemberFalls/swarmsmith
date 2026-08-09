@@ -191,6 +191,25 @@ When the plan marks a node/cluster DIFFABLE:
    `applied / nomatch / nonunique` counts. A clean run is `applied == blocks, nomatch=0,
    nonunique=0`. This step costs ~0 tokens and ~0 seconds and is 100% reproducible.
 
+   The applier ships with this skill — do NOT write your own, and do NOT hand the
+   blocks to a model to apply. Both defeat the mechanism (see the FORMAT evidence
+   above: a model applying a flawed patch scored 8/16, *below* the same model
+   interpreting the spec at 10/20).
+
+   ```
+   python ~/.claude/tools/orch-apply/apply_blocks.py plan.blocks --root . --json apply.json
+   ```
+
+   Windows/PowerShell: `python "$env:USERPROFILE\.claude\tools\orch-apply\apply_blocks.py" ...`
+
+   Exit `0` = every block applied cleanly · `1` = residue to escalate (step 3) ·
+   `2` = malformed blocks (fix the emit, do not force it). `--dry-run` reports without
+   writing; `--atomic` refuses partial application.
+
+   If the applier is not installed, SAY SO and stop — do not silently fall back to
+   in-place editing, which discards the entire speed and cost win this tier exists for.
+   Install: `python packages/coding-v5.0/install.py` from the swarmsmith checkout.
+
 3. **Residual → escalate, don't guess.** Any `nomatch` (Opus's SEARCH wasn't verbatim)
    or `nonunique` (insufficient context) block does NOT get force-applied. It is handed
    to a single cheap worker (sonnet) with the block + the file, "apply this one edit;"
