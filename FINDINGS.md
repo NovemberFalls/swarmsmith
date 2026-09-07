@@ -477,7 +477,9 @@ prediction held, and more: given the Agent tool, v4.1's per-attempt wall gap doe
 merely narrow, it inverts, and the turn-count comparison above reverses. The
 cost-per-result claim survives; the wall and turn claims do not.]** v5.0 is the crowned champion of the **DIFFABLE
 tier**, graduated on both mechanism (k=25) and whole-skill (k=3) — not a universal
-replacement for v4.1.
+replacement for v4.1. **[2026-09-07: the skill these figures measure was not
+self-contained — it deferred §1–§3 and §4.1–§4.8 to a v4.1 the harness never injected.
+See §4.12 and the second PROVISIONAL note in §4.7a.]**
 
 ### 4.7a · v5.0 re-measured against v4.1's swarm path (2026-07-31)
 
@@ -499,6 +501,28 @@ advance — you cannot keep the good attempts and discard the bad ones.
 > low-effort monolith cell per fixture at k=25. Until it runs, read the v5.0-vs-v4.1 delta
 > as sound and the *"the apply-tier is worth having"* conclusion as unproven against no
 > skill at all.
+
+> **PROVISIONAL (2026-09-07) — the arm was not the whole skill it is named after.** Every
+> row in this section is `v5-anth`, and `ARM_SKILLS["v5-anth"]` is a **one-element list**
+> (`bench/arms.py:278`). The file it injects defers §1 (inventory), §2 (**the scale gate
+> and every threshold in it**), §3 (SOLO) and §4.1–§4.8 to v4.1 — six references of the
+> form *"unchanged from v4.1 … carried verbatim"* — and the harness never injected v4.1.
+> Neither did the machine: the one-local-skill policy leaves `orch-code-anth.md` the only
+> orchestration skill on disk. **The model was told a rule exists, told where it isn't,
+> and left to invent it.** These rows measure a skill improvising four of its own
+> sections, including the numbers that decide SOLO vs SWARM. See §4.12.
+>
+> This is independent of the effort caveat above, and it does **not** withdraw the
+> cost-per-result claim: both arms ran as executed, the apply-tier mechanism (§0, §4.9,
+> §4.9a) was fully specified in the injected text, and v5.0 converted 10/10 against
+> v4.1's 7/10 on those runs. What is **unqualified** is any reading that attributes the
+> result to the *stated* rules rather than to whatever the model supplied in their place
+> — and finding 1 below in particular ("v5's routing tracks context size — the scale gate
+> works") describes a gate whose thresholds were reconstructed per-run. Closing it is
+> `v5-flat` (the flattened v5.0.1) against `v5-anth`, same seat, same effort, k≥3; the arm
+> is registered (`arms.py:613`) and unrun. **If the two arms route differently on the same
+> fixture, that alone is the finding** — it would mean the crowned arm gated on numbers it
+> invented.
 
 | arm | fixture | correct | $/attempt | **$/success** | wall p50 | spawns |
 |---|---|---|---|---|---|---|
@@ -1031,6 +1055,96 @@ remembering.
 The same deploy also shipped `/orch-plan-ralph` chipped `shim · unmeasured` — see §4.10.
 **Two defects on one page, one of them ours upstream, both found by a reader and a script
 rather than by the author.**
+
+### 4.12 · The skill we published was not the skill we measured (2026-07-30 → 2026-09-07)
+
+Two artifacts shipped from this repo under the name **v5.0**. They carried different
+defects, and neither was a drift: both were wrong in their first commit and stayed wrong
+for five weeks.
+
+**The package command — a skill that deferred to a document it did not ship.**
+`packages/coding-v5.0/commands/orch-anth-5.0.md` is the file `install.py` writes into a
+user's `~/.claude/commands/`. Six times it said:
+
+```
+## §1 · Inventory — unchanged from v4.1
+[… See v4.1 §1 — carried verbatim.]
+```
+
+§1 (inventory), §2 (**the scale gate and every threshold in it**), §3 (the SOLO path) and
+§4.1–§4.8 (plan-as-data, grouping, THE MANDATE, lanes, briefs, landing, the gate, the
+ladder) were deferred to a document **the package does not contain**. Anyone who installed
+it got a skill obliged to invent half its own rules, including the numbers that decide
+whether work is routed to a swarm at all. Shipped `40e07a3` (2026-07-31), repaired
+`b2a822b` (2026-09-07).
+
+**The site edition — the worse one, because it looked complete.**
+`packages/coding-v5.0/site/orchestrate-anthropic-v5.0-public.md` and its served twin said,
+on line 18: *"Self-contained: no companion files, no harness, no prior version."*
+Structurally that was true — nothing in it referred outward. But it was not a flattening of
+v4.1. It was a **paraphrase**, and the paraphrase rewrote the gate:
+
+| | trigger |
+|---|---|
+| **published** | *"rule of thumb: ≳8 independent nodes, or ≳50K of reading"* |
+| **measured** | sites ≥25, or files to create/modify ≥12 |
+| | nodes ≥12 **and** ≥40% MUNDANE+WORKHORSE |
+| | read ≥150K tokens, or ≥60% of the session's turn budget |
+| | *tiebreak: within one honest re-count of a line, take SOLO* |
+
+**The 12 is not a round number, it is a measurement.**
+`archive/orchestrate-v4.0.md:33` carries `nodes >= 10`.
+`archive/orchestrate-v4.3-counting-gate.md:44` carries `nodes >= 12` *and* a tiebreak that
+did not exist before it — *"when a count sits within one honest re-count of a line (e.g. 9
+vs 10 deliverables), take SOLO."* Both edits were made for one reason. On `arena_website`
+the `v4-anthropic` arm read the same site as 9 and as 10 deliverables on two runs, flipped
+SOLO→SWARM across that line, and **both runs passed**: 0 spawns at **$2.35**
+(`bench/results/v4_pass1.jsonl`) against 6 spawns at **$6.69**
+(`bench/results/v4_pass2.jsonl`). **2.8× the cost for identical correctness** — precisely
+what the raised threshold and the tiebreak exist to prevent.
+
+The published rule sat *below* that line, and shipped no tiebreak at all. For the 39 days
+between `18aec54` (2026-07-30, the paraphrased gate) and `e4eebad` (2026-09-07, the
+repair), every user of the public edition was gated by a number no arena row ever tested —
+and from `399df1c` (2026-07-31) it carried the self-contained banner while doing it. Its §4
+was likewise a single paragraph where the skill that earned the crown carries the
+machinery: parallel dispatch in ONE message, within-lane grouping,
+one-writer-per-file-per-batch, 3–8 site clusters, the ladder rungs, the 3-attempt cap.
+
+**The honest description is not "the public edition drifted."** It is that the public
+edition was a *different skill wearing the champion's version number*, and the correct
+repair was never to hand-write another edition — it was to regenerate it from the source
+the numbers were measured against. Both artifacts now inline the same normative body byte
+for byte.
+
+**Why every existing check passed.** Bytes matched bytes the whole time. The two editions
+were never meant to be byte-identical — only their **rules** were — so a mirror check
+comparing copies of the same edition was structurally incapable of seeing this. That is the
+lesson worth more than the incident: a hash check verifies that a file did not change, and
+this file was wrong before it was ever copied.
+
+**The third of its class.** An artifact asserting something true-looking that no script
+checks has now shipped three times, and `verify-skills.py`'s own docstring names the prior
+two: a download described as self-contained that needed a second file, and an installer
+described as shipping "the same two files" that shipped a different edition of the skill.
+All three were caught by a person reading carefully, none by the pipeline. §4.11's defect
+was found the same way.
+
+**The fix is mechanical rather than procedural**, per §4.11's rule.
+`boord-its/tools/verify-skills.py` gained two checks: **RULES**, which asserts the served
+skill states each measured gate threshold and fails on the paraphrase strings (`"rule of
+thumb"`, `"≳8"`, `"≳50K"`); and **EDITIONS**, which asserts the site edition and the
+package command share one normative body byte for byte, so the two may differ only in their
+head and limits appendix. Neither depends on anyone remembering.
+
+**What this costs the numbers.** Every figure in §4.7 and §4.7a was measured on the
+deferring edition — see the second PROVISIONAL note there. The repaired skill is **v5.0.1**
+and its crown is **inherited, not re-earned**. Flattening *presents* as behavior-preserving,
+and for a reader who already knew v4.1 it is; but no reader knew v4.1, the measured arm was
+a model improvising four sections, and the repaired arm is a model following them. That is a
+real variable and it can move the result in either direction — stated rules may beat
+invented ones, or the added length may crowd out the apply-tier that earns the win.
+`v5-flat` vs `v5-anth`, same seat and effort, k≥3, is the cell that settles it.
 
 *This document was restructured from round-by-round findings into paper form on
 2026-07-18; the full evolution is in the git history.*
