@@ -120,7 +120,44 @@ something you cannot adjust afterwards.
 
 ---
 
-## 6 · Crowning
+## 6 · Status ladder — PROPOSED, JUSTIFIED, CROWNED
+
+Three statuses, each with its own bar. **A skill carries exactly one, and the label is
+written in full wherever it is quoted** — arm-label slippage is this program's most repeated
+error, and every occurrence of it began as a phrase used before it was defined.
+
+| status | what ran | what it licenses |
+|---|---|---|
+| **PROPOSED** | nothing, or use without a control | that the thing exists and someone ran it |
+| **JUSTIFIED against a control (n=…)** | challenger **and monolith**, no incumbent | that the skill exists *for a reason* |
+| **CROWNED** | all three arms | that this version is the one we ship |
+
+### JUSTIFIED against a control
+
+A skill is **justified against a control** when, and only when:
+
+- the **monolith arm ran** on the same fixture and the same task — this is the whole of the
+  status; a challenger measured against nothing stays PROPOSED
+- a **pre-registration** was committed before the cell (§2)
+- the metric had **demonstrated headroom** (§3), and the monolith did not reach the ceiling
+- **n is stated in the label itself**, not in a footnote — `justified against a control
+  (n=1)` is a complete label; *justified* alone is not
+- cost is reported, or its absence is stated as a limit of the cell
+
+**What it does not license.** No comparative claim against any incumbent, past or future,
+and no claim that any particular section, phase or edit contributed anything — an incumbent
+arm is the only thing that can say that. It answers *does the skill exist for a reason*, not
+*is this version better than the last*. At n=1 it is a directional result and says so.
+
+**JUSTIFIED is not a lesser crowning; it is a different question.** A skill can be justified
+forever without ever being crowned, and a crowning does not require passing through this rung
+first. Promotion to CROWNED requires everything below, run fresh — a justification cell is
+not partial credit toward one.
+
+Standing example: `/orch-plan` is **PROPOSED, use-validated, and justified against a control
+(n=1)** — not crowned. See [FINDINGS.md](../FINDINGS.md) §4.9.
+
+### Crowning
 
 A crowning requires **all three arms**, a pre-registration, a metric with demonstrated
 headroom, and cost per successful run. A challenger that beats the incumbent while both sit

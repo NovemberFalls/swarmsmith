@@ -763,7 +763,10 @@ this program's most repeated error — it produced the `GREENFIELD_CONTROL.md` m
 whole of §4.8 — and the fix is to rename the outcome or amend §6, not to let two meanings run.
 
 **We renamed the outcome.** `/orch-plan` is **PROPOSED, use-validated, and justified against
-a control (n=1)** — *not crowned*. §6 stands unchanged, because amending a published
+a control (n=1)** — *not crowned*. That status is now defined with its own bar in
+[docs/bench-normalization.md](docs/bench-normalization.md) §6, added 2026-08-09 because the
+phrase was in use in three places before it meant anything. §6's crowning clause stands
+unchanged, because amending a published
 standard to fit a result you have already seen is the retro-fit this program exists to
 prevent. **Crowning remains open** and needs what §6 asks for: three arms including an
 incumbent, a metric with demonstrated headroom, and cost per successful run. The catch was a
