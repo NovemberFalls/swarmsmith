@@ -35,7 +35,7 @@ import os
 import shutil
 import sys
 
-VERSION = "5.0.0"
+VERSION = "5.0.1"
 PACKAGE = "coding-v5.0"
 
 HERE = os.path.dirname(os.path.abspath(__file__))
