@@ -19,9 +19,9 @@ successful run**.
 - **A win at scale.** On a 400K-token fixture (k=3) the two **tie at 3/3**, with v5.0 only
   1.28× faster and 1.09× cheaper. The advantage is a small-and-medium-work advantage.
 
-v4.1 is retired as the default and preserved in this repo
-([`orchestrate.md`](orchestrate.md)) as rollback. Everything else in v4.1 is preserved
-verbatim. Small fixtures at k=5 (30 cells), large at k=3 (6 cells); ladder continues to
+v4.1 is retired as the default. Its §1–§8 are inlined below, so this file needs no prior
+version and ships none — the standalone v4.1 text is kept for rollback in the swarmsmith
+repo at `.claude/commands/orchestrate.md` and is deliberately not part of this package. Small fixtures at k=5 (30 cells), large at k=3 (6 cells); ladder continues to
 k=10, then 25.
 
 ## The v5.0 thesis (owner-originated 2026-07-26)
@@ -515,6 +515,14 @@ Commit behavior in this section is governed by §7.1. This section states no com
 
 ## Known limits — read before trusting a number
 
+- **Every number above was measured on the v5.0 edition of this file, not on this one.**
+  That edition deferred §1, §2 (the scale gate and all four of its thresholds), §3 and
+  §4.1–§4.8 to a v4.1 that the benchmark harness never injected and that shipped in no
+  package — so the measured runs had a model improvising the inventory rules, the gate
+  numbers and the swarm protocol. v5.0.1 states them. **The crown is therefore inherited,
+  not re-earned:** stating the rules may beat inventing them, or the added length may
+  crowd out the apply-tier that earns the win. The head-to-head that settles it is
+  registered and unrun. Full disclosure: FINDINGS.md §4.12.
 - The whole-skill campaign is at **k=5** and climbing (→10 →25); only the isolated
   mechanism ran k=25. Treat the multipliers as directional. Two fixtures only, both
   `task_class: MIXED`; the large and hygiene fixtures ran at k=3. No pure-generative
